@@ -73,3 +73,14 @@ export const Search = styled.div`
     margin: auto 0;
 
 `
+
+export const Logout = styled.button` 
+    border: none;
+    background: none;
+    
+    > span{
+        color: ${({theme}) => theme.COLORS.GRAY_100};
+        font-size:16px;
+    }
+
+`

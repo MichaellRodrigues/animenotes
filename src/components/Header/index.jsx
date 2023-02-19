@@ -1,6 +1,9 @@
-import { Container, Profile, Brand, Search } from "./styles";
+import { Container, Profile, Brand, Search, Logout } from "./styles";
+import {useAuth} from "../../hooks/auth"
 import { Input } from '../../components/Input'
 export function Header(){
+    const {signOut} = useAuth()
+
     return(
         <Container>
             <Brand>
@@ -13,10 +16,12 @@ export function Header(){
                 <img src="https://github.com/MichaellRodrigues.png" alt="Foto usuário"/>
                 <div>
                  
-                 <strong>Michaell Rodrigues</strong> 
-                 <span>Sair</span>  
+                 <strong>Michaell Rodrigues</strong>                
                 </div>
             </Profile>
+            <Logout onClick={signOut}>
+                    <span>Sair</span>  
+                </Logout>
         </Container>
     )
 }
