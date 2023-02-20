@@ -1,8 +1,11 @@
 import { Container, Profile, Brand, Search, Logout } from "./styles";
 import {useAuth} from "../../hooks/auth"
 import { Input } from '../../components/Input'
+import {api} from '../../services/api'
+
 export function Header(){
     const {signOut} = useAuth()
+    const avatarUrl = user.avatar ? `${api.defaults.baseURL}/files/${user.avatar}` : avatarPlaceholder
 
     return(
         <Container>
@@ -13,10 +16,10 @@ export function Header(){
                 <Input placeholder="Pesquisar pelo título"/>
             </Search>
            <Profile to="/profile">
-                <img src="https://github.com/MichaellRodrigues.png" alt="Foto usuário"/>
+                <img src={avatarUrl} alt={user.name}/>
                 <div>
                  
-                 <strong>Michaell Rodrigues</strong>                
+                 <strong>{user.name}</strong>                
                 </div>
             </Profile>
             <Logout onClick={signOut}>
