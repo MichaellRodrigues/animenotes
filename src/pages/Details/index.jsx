@@ -7,7 +7,7 @@ import { Header } from "../../components/Header";
 import { Wrapper } from "../../components/Wrapper";
 import { ButtonText } from "../../components/ButtonText";
 import { Rating } from "../../components/Rating";
-import { Tag } from "../../components/Tag";
+import { Tag } from "../../components/Tags";
 import { Button } from "../../components/Button";
 import { api } from "../../services/api";
 import { useAuth } from "../../hooks/auth";

@@ -1,7 +1,7 @@
 import { Container } from "./styles";
 
 import { Rating } from "../Rating";
-import { Tag } from "../Tag";
+import { Tag } from "../Tags";
 
 export function Note({ data, ...rest }) {
   return (
