@@ -1,90 +1,91 @@
-import {createContext, useContext, useState, useEffect} from 'react'
+import { createContext, useContext, useState, useEffect } from "react";
 
-import {api} from '../services/api'
+import { api } from "../services/api";
 
-const AuthContext = createContext({})
+const AuthContext = createContext({});
 
-function AuthProvider({children}){
-    const [data, setData] = useState({})
+function AuthProvider({ children }) {
+  const [userInfos, setUserInfos] = useState(null);
 
-    async function signIn({email, password}){
-        try{
-            const response = await api.post('/sessions', {email, password})
-            const {user, token} = response.data
+  async function signIn(email, password) {
+    try {
+      const response = await api.post("/sessions", { email, password });
+      const { user, token } = response.data;
 
-            localStorage.setItem('@animenotes:user', JSON.stringify(user))
-            localStorage.setItem('@animenotes:token', token)
+      setUserInfos(user);
+      api.defaults.headers.common["Authorization"] = `Bearer ${token}`;
 
-            api.defaults.headers.common['authorization'] = `Bearer ${token}`
-            setData({user,token})
-
-        } catch(error){
-            if(error.response){
-                alert(error.response.data.message)
-            }else{
-                alert("Não foi possível logar")
-            }
-        }
+      localStorage.setItem("@rocketmovies:user", JSON.stringify(user));
+      localStorage.setItem("@rocketmovies:token", token);
+    } catch (error) {
+      if (error.response) {
+        alert(error.response.data.message);
+      } else {
+        alert("Não foi possível logar. Por favor tente novamente mais tarde.");
+      }
     }
+  }
 
-    function signOut(){
-        localStorage.removeItem('@animenotes:user')
-        localStorage.removeItem('@animenotes:token')
+  function signOut() {
+    setUserInfos(null);
+    localStorage.removeItem("@rocketmovies:user");
+    localStorage.removeItem("@rocketmovies:token");
+  }
 
-        setData({})
+  async function updateUser({ user, avatar }) {
+    try {
+      if (avatar) {
+        const fileForm = new FormData();
+        fileForm.append("avatar", avatar);
+
+        const response = await api.patch("/users/avatar", fileForm);
+
+        setUserInfos(response.data);
+
+        localStorage.setItem(
+          "@rocketmovies:user",
+          JSON.stringify(response.data)
+        );
+      }
+      const response = await api.put("/users", user);
+
+      setUserInfos(response.data);
+
+      localStorage.setItem("@rocketmovies:user", JSON.stringify(response.data));
+
+      alert("Dados atualizados com sucesso");
+    } catch (error) {
+      if (error.response) {
+        alert(error.response.data.message);
+      } else {
+        alert(
+          "Não foi possível atualizar. Por favor tente novamente mais tarde."
+        );
+      }
     }
+  }
 
-    async function updateProfile({user, avatarFile}){
-        try{
-            
-            if(avatarFile){
-                const fileUploadForm = new FormData()
-                fileUploadForm.append("avatar", avatarFile)
+  useEffect(() => {
+    const user = JSON.parse(localStorage.getItem("@rocketmovies:user"));
+    const token = localStorage.getItem("@rocketmovies:token");
 
-                const response = await api.patch('/users/avatar', fileUploadForm)
-                user.avatar = response.data.avatar
-            }
-            
-            await api.put('/users', user)
-            localStorage.setItem('@animenotes:user', JSON.stringify(user))
-
-            setData({user,token: data.token})
-            alert('Updated profile')
-            
-        }catch(error){
-            if(error.response){
-                alert(error.response.data.message)
-            }else{
-                alert("Não foi possível atualizar o perfil.")
-            }
-        }
+    if (user && token) {
+      setUserInfos(user);
+      api.defaults.headers.common["Authorization"] = `Bearer ${token}`;
     }
+  }, []);
 
-    useEffect(() => {
-        const token = localStorage.getItem('@animenotes:token')
-        const user = localStorage.getItem('@animenotes:user')
-
-        if(token && user){
-            api.defaults.headers.common['authorization'] = `Bearer ${token}`
-
-            setData({
-                token,
-                user:JSON.parse(user)
-            })
-        }
-    },[])
-
-    return(
-        <AuthContext.Provider value={{signIn, user: data.user, signOut, updateProfile}}>
-            {children}
-        </AuthContext.Provider>
-    )
+  return (
+    <AuthContext.Provider value={{ userInfos, signIn, signOut, updateUser }}>
+      {children}
+    </AuthContext.Provider>
+  );
 }
 
-function useAuth(){
-    const context = useContext(AuthContext)
+function useAuth() {
+  const context = useContext(AuthContext);
 
-    return context
+  return context;
 }
 
-export { AuthProvider, useAuth } 
+export { AuthProvider, useAuth };

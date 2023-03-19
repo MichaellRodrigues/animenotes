@@ -1,48 +1,53 @@
-import { useState } from 'react'
-import {Container, Form, Background } from './styles'
-import {FiMail, FiLock} from 'react-icons/fi'
-import {Link} from 'react-router-dom'
-import {Button} from '../../components/Button'
+import { FiMail, FiLock } from "react-icons/fi";
+import { useState } from "react";
 
-import {Input} from '../../components/Input'
+import { Container, Content, Form, BackgroundImg } from "./styles";
+import { Input } from "../../components/Input";
+import { Button } from "../../components/Button";
+import { ButtonText } from "../../components/ButtonText";
+import { useAuth } from "../../hooks/auth";
 
-import{ useAuth} from '../../hooks/auth.jsx'
+export function SignIn() {
+  const [email, setEmail] = useState("");
+  const [password, setPassword] = useState("");
 
+  const { signIn } = useAuth();
 
-export function SignIn(){
-    const [email, setEmail] = useState("")
-    const [password, setPassword] = useState("") 
+  function handleSignIn() {
+    const someoneFieldWasNotFilled = !email || !password;
 
-    const {signIn} = useAuth()
-
-    function handleSignIn(){
-        signIn({email, password})
+    if (someoneFieldWasNotFilled) {
+      return alert("Preencha todos os campos para entrar!");
     }
 
-    return(
-        <Container>
-            <Form>
-                <h1>Rocket Notes</h1>
-                <p> Aplicação para salvar e gerenciar seus links úteis.</p>
+    signIn(email, password);
+  }
 
-                <h2>Faça seu login</h2>
-
-                <Input
-                    placeholder="E-mail"
-                    type="text"
-                    icon={FiMail}
-                    onChange={e => setEmail(e.target.value)}
-                />
-                <Input
-                    placeholder="E-mail"
-                    type="password"
-                    icon={FiLock}
-                    onChange={e => setPassword(e.target.value)}
-                />
-                <Button title="Entrar" onClick={handleSignIn}/>
-                <Link to="/register"> Criar Conta</Link>
-            </Form>
-            <Background/>
-        </Container>
-    )
+  return (
+    <Container>
+      <Content>
+        <Form>
+          <h1>RocketMovies</h1>
+          <p>Aplicação para acompanhar tudo que assistir.</p>
+          <h2>Faça seu login</h2>
+          <Input
+            icon={FiMail}
+            placeholder="E-mail"
+            value={email}
+            onChange={e => setEmail(e.target.value)}
+          />
+          <Input
+            icon={FiLock}
+            placeholder="Senha"
+            type="password"
+            value={password}
+            onChange={e => setPassword(e.target.value)}
+          />
+          <Button title="Entrar" onClick={handleSignIn} />
+          <ButtonText to="/register" title="Criar conta" />
+        </Form>
+      </Content>
+      <BackgroundImg />
+    </Container>
+  );
 }

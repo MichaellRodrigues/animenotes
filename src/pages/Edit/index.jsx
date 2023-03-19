@@ -1,6 +1,6 @@
 import { FiArrowLeft } from "react-icons/fi";
-import { useState } from "react";
-import { useNavigate } from "react-router-dom";
+import { useState, useEffect } from "react";
+import { useNavigate, useParams } from "react-router-dom";
 
 import { Container, Inputs, TextArea, Buttons } from "./styles";
 import { Header } from "../../components/Header";
@@ -11,7 +11,7 @@ import { Button } from "../../components/Button";
 import { NoteItem } from "../../components/NoteItem";
 import { api } from "../../services/api";
 
-export function New() {
+export function Edit() {
   const [title, setTitle] = useState("");
   const [rating, setRating] = useState("");
   const [description, setDescription] = useState("");
@@ -19,6 +19,7 @@ export function New() {
   const [newTag, setNewTag] = useState("");
 
   const navigate = useNavigate();
+  const params = useParams();
 
   function inputValidator() {
     if (!title) {
@@ -49,7 +50,7 @@ export function New() {
     );
 
     if (userConfirmation) {
-      navigate("/");
+      navigate(-1);
     }
   }
 
@@ -77,9 +78,9 @@ export function New() {
 
     if (passedValidation) {
       try {
-        api.post("/notes", { title, description, rating, tags });
-        alert("Filme cadastrado com sucesso!");
-        navigate(-1);
+        api.put(`/notes/${params.id}`, { title, description, rating, tags });
+        alert("Filme editado com sucesso!");
+        navigate("/");
       } catch (error) {
         if (error.response) {
           alert(error.response.data.message);
@@ -91,13 +92,39 @@ export function New() {
     }
   }
 
+  useEffect(() => {
+    async function fetchData() {
+      try {
+        const response = await api.get(`/notes/${params.id}`);
+        const { data } = response;
+
+        setTitle(data.title);
+        setRating(data.rating);
+        setDescription(data.description);
+
+        const onlyTagsNames = data.tags.map(tag => tag.name);
+        setTags(onlyTagsNames);
+      } catch (error) {
+        if (error.response) {
+          alert(error.response.data.message);
+        } else {
+          alert("Não foi possível carregar os dados");
+          console.log(error);
+          navigate("/");
+        }
+      }
+    }
+
+    fetchData();
+  }, []);
+
   return (
     <Container>
       <Header />
       <main>
         <Wrapper>
           <ButtonText to="/" icon={FiArrowLeft} title="Voltar" />
-          <h1>Novo filme</h1>
+          <h1>Editar filme</h1>
           <Inputs>
             <Input
               placeholder="Título"
@@ -115,6 +142,7 @@ export function New() {
           </Inputs>
           <TextArea
             placeholder="Observações"
+            value={description}
             onChange={e => setDescription(e.target.value)}
           />
           <h2>Marcadores</h2>

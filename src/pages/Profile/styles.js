@@ -1,73 +1,63 @@
-import styled from 'styled-components'
+import styled from "styled-components";
 
-export const Container = styled.div`
-    width: 100%;
+export const Container = styled.div``;
 
-
-    > header {
-        width: 100%;
-        height: 144px;
-        background: ${({theme})=> theme.COLORS.BACKGROUND_900};
-
-        display: flex;
-        align-items: center;
-
-        padding: 0 124px;
-
-        svg{
-            color: ${({theme})=> theme.COLORS.ORANGE};
-            font-size: 24px;
-        }
+export const Header = styled.header`
+  width: 100%;
+  height: 14.4rem;
+  padding-left: 14.4rem;
+  background-color: ${({ theme }) => theme.COLORS.PINK_900};
+  display: flex;
+  align-items: center;
+  position: relative;
+  @media (max-width: 768px) {
+    > a {
+      position: absolute;
+      left: 50%;
+      top: 1.2rem;
+      transform: translateX(-70%);
     }
-`
+  }
+`;
 
 export const Form = styled.form`
-    max-width:340px;
-    margin: 30px auto 0;
-
-    > div:nth-child(4){
-        margin-top: 24px;
-    }
-
-`
+  max-width: 38rem;
+  padding: 0 4rem 4rem;
+  margin: auto;
+  > div:nth-child(4) {
+    margin-top: 2.4rem;
+  }
+`;
 
 export const Avatar = styled.div`
-    position: relative;
-    margin:-124px auto 32px;
-
-    width: 186px;
-    height: 186px;
-
-    > img{
+  position: relative;
+  margin: -9.3rem auto 6.4rem;
+  width: 18.6rem;
+  height: 18.6rem;
+  > img {
+    width: 100%;
+    height: 100%;
     border-radius: 50%;
-    width: 186px;
-    height: 186px;
+    display: block;
+  }
+  > label {
+    position: absolute;
+    bottom: 0;
+    right: 0;
+    cursor: pointer;
+    width: 4.8rem;
+    height: 4.8rem;
+    border-radius: 50%;
+    display: flex;
+    align-items: center;
+    justify-content: center;
+    background-color: ${({ theme }) => theme.COLORS.PINK_800};
+    > svg {
+      font-size: 2rem;
+      color: ${({ theme }) => theme.COLORS.BLACK_900};
     }
-    > label{
-        width: 48px;
-        height: 48px;
-
-        background-color: ${({theme})=> theme.COLORS.ORANGE};
-        border-radius: 50%;
-
-        display: flex;
-        align-items: center;
-        justify-content: center;
-
-        position: absolute;
-        bottom: 7px;
-        right: 7px;
-
-        cursor : pointer;
-
-        input{
-            display: none;
-        }
-
-        svg{
-            width:20px;
-            height:20px;
-            color: ${({theme})=> theme.COLORS.BACKGROUND_800};
-        }
+    > input {
+      display: none;
     }
-`
+  }
+`;

@@ -1,44 +1,93 @@
-import {Container, Content, NewNote} from './styles'
-import { useState, useEffect} from 'react'
-import {api} from '../../services/api'
-import {Header} from '../../components/Header'
-import {FiPlus} from 'react-icons/fi'
-import {Section} from '../../components/Section'
-import {Note} from '../../components/Note'
+import { FiPlus, FiSearch } from "react-icons/fi";
+import { useState, useEffect } from "react";
+import { useNavigate } from "react-router-dom";
 
+import { Container, Top, ButtonAdd, Notes } from "./styles";
+import { Header } from "../../components/Header";
+import { Wrapper } from "../../components/Wrapper";
+import { Note } from "../../components/Note";
+import { Input } from "../../components/Input";
+import { api } from "../../services/api";
 
-export function Home(){
-    
+export function Home() {
+  const [notes, setNotes] = useState([]);
+  const [search, setSearch] = useState("");
 
-    return(
-        <Container>
-             <Header/>
+  const navigate = useNavigate();
 
-            <Content>
-                <div>
-                    <h1>Meus Animes</h1>
-                    
-                    <NewNote to="/new">
-                        
-                        <FiPlus/>Criar Nota
-                    </NewNote>
-                </div>
-                <Section title="">
-                
-                    <Note data={{
-                        title: "Anime",
-                        text:"Lorem ipsum dolor sit amet, consectetur", 
-                        tags:[
-                            {id:'1', name:'Aventura'},
-                            {id:'2', name:'Ação'}
-                        ]
-                    }}
-                    />    
-                </Section>
-                
-            </Content>
+  function handleShowDetails(id) {
+    navigate(`/details/${id}`);
+  }
 
-            
-        </Container>
-    )
+  function handleMobileSearch() {
+    const mobileSearch = window.prompt("Digite sua busca:");
+
+    if (mobileSearch) {
+      setSearch(mobileSearch);
+    }
+  }
+
+  useEffect(() => {
+    async function fetchNotes() {
+      try {
+        const response = await api.get(`/notes?title=${search}`);
+
+        setNotes(response.data);
+      } catch (error) {
+        if (error.response) {
+          alert(error.response.data.message);
+        } else {
+          alert(
+            "Não foi possível carregar os filmes. Tente recarregar a página."
+          );
+          console.log(error);
+        }
+      }
+    }
+
+    fetchNotes();
+  }, [search]);
+
+  return (
+    <Container>
+      <Header>
+        <Input
+          className="search only-in-desktop"
+          placeholder="Pesquisar pelo título"
+          value={search}
+          onChange={e => setSearch(e.target.value)}
+        />
+        <button
+          className="mobile-search"
+          type="button"
+          onClick={handleMobileSearch}
+        >
+          <FiSearch />
+        </button>
+      </Header>
+      <main>
+        <Wrapper>
+          <Top>
+            <h1>Meus filmes</h1>
+            <ButtonAdd to="/new">
+              <FiPlus /> Adicionar filme
+            </ButtonAdd>
+          </Top>
+          <Notes>
+            {notes.length == 0 ? (
+              <h2>Nenhum filme encontrado</h2>
+            ) : (
+              notes.map(note => (
+                <Note
+                  key={String(note.id)}
+                  data={note}
+                  onClick={() => handleShowDetails(note.id)}
+                />
+              ))
+            )}
+          </Notes>
+        </Wrapper>
+      </main>
+    </Container>
+  );
 }
