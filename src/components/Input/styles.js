@@ -1,31 +1,24 @@
-import styled from 'styled-components'
+import styled from "styled-components";
 
 export const Container = styled.div`
-    width: 100%;
-    display: flex;
-    align-items: center;
-
-    background-color: ${({theme}) => theme.COLORS.BACKGROUND_900};
-    color: ${({theme}) => theme.COLORS.BACKGROUND_300};
-
-    margin-bottom:8px;
-    border-radius:10px;
-
-    > input{
-         height: 56px;
-         width: 100%;
-
-         padding: 12px;
-         color: ${({theme}) => theme.COLORS.WHITE};
-         background:transparent;
-         border:0;
-
-         &:placeholder{
-            color: ${({theme}) => theme.COLORS.GRAY_300};
-         }
-         
-    } 
-    > svg{
-            margin-left:16px;
-         }  
-`
+  flex-grow: 1;
+  padding: 2rem;
+  margin-bottom: 1rem;
+  border-radius: 1rem;
+  background-color: ${({ theme }) => theme.COLORS.BLACK_700};
+  display: flex;
+  align-items: center;
+  gap: 1.5rem;
+  > svg {
+    color: ${({ theme }) => theme.COLORS.GRAY_800};
+    width: 2rem;
+    height: 2rem;
+  }
+  > input {
+    flex-grow: 1;
+    border: none;
+    outline: none;
+    color: ${({ theme }) => theme.COLORS.WHITE};
+    background-color: transparent;
+  }
+`;

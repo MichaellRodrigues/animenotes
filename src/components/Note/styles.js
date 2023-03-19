@@ -1,32 +1,32 @@
-import styled from 'styled-components'
+import styled from "styled-components";
 
-export const Container = styled.div`
-    width:100%;
-    background-color: ${({theme})=> theme.COLORS.BACKGROUND_700};
-
-    border:none;
-    border-radius:10px;
-
-    padding:22px;
-    margin-bottom:16px;
-
-    > h1{
-        flex:1;
-        text-align:left;
-        font-weight:700;
-        font-size:24px;
-        color:${({theme})=> theme.COLORS.WHITE};
-    }
-
-    > p{
-        margin-top:15px;
-        font-weight:400;
-        font-size:16px;
-    }
-
-    > footer{
-        width:100%;
-        display: flex;
-        margin-top:24px;
-    }
-`
+export const Container = styled.button`
+  width: 100%;
+  margin-bottom: 2.4rem;
+  padding: 3.2rem;
+  border-radius: 1.6rem;
+  background-color: ${({ theme }) => theme.COLORS.PINK_900};
+  display: grid;
+  text-align: left;
+  > h3 {
+    width: 100%;
+    font-weight: 700;
+    font-size: 2.4rem;
+    line-height: 3.2rem;
+    margin-bottom: 0.8rem;
+  }
+  > p {
+    font-size: 16px;
+    line-height: 19px;
+    color: ${({ theme }) => theme.COLORS.GRAY_700};
+    margin: 1.5rem 0;
+    word-wrap: normal;
+    overflow: hidden;
+    /* white-space: nowrap; */
+    text-overflow: ellipsis;
+    height: 40px;
+  }
+  > footer:last-child {
+    align-self: end;
+  }
+`;

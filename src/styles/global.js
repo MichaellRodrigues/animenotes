@@ -1,33 +1,34 @@
-/* Importar o global styles */
-
 import { createGlobalStyle } from "styled-components";
 
-export const GlobalStyle = createGlobalStyle`
+export default createGlobalStyle`
   * {
     margin: 0;
     padding: 0;
     box-sizing: border-box;
   }
-  body{
-    background-color: ${({theme}) => theme.COLORS.BACKGROUND_800};
-    color: ${({theme}) => theme.COLORS.WHITE};
-
+  :root {
+    font-size: 62.5%;  
+  }
+  body {
+    font-size: 1.6rem;
+    background-color: ${({ theme }) => theme.COLORS.BLACK_800};
+  }
+  body, input, textarea, button {
+    font-family: 'Roboto Slab', serif;
+    color: ${({ theme }) => theme.COLORS.WHITE_800};
     -webkit-font-smoothing: antialiased;
   }
-  body, input, button, textarea{
-    font-family: 'Roboto', sans-serif;
-    font-size:16px;
-    outline: none;
+  button, a {
+    cursor: pointer;
+    transition: all .4s;
   }
-  a{
+  button:hover, a:hover {
+    filter: brightness(0.8);
+  }
+  button {
+    border: none;
+  }
+  a {
     text-decoration: none;
   }
-  button, a{
-    cursor: pointer;
-    transition: filter 0.2s;
-  }
-
-  button:hover, a:hover{
-    filter: brightness(0.95);
-  }
-`
+`;

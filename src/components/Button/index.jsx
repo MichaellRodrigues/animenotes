@@ -1,10 +1,21 @@
-/*importando*/
 import { Container } from "./styles";
 
-/*Exportando*/
-export function Button({title, loading = false, ...rest}) {
-    return(
-    <Container type='button' disabled={loading} {...rest}>
-        {loading ? 'Carregando...':title}
-    </Container>)
+export function Button({
+  icon: Icon,
+  title,
+  highlighted = true,
+  disabled = false,
+  onClick,
+}) {
+  return (
+    <Container
+      type="button"
+      disabled={disabled}
+      highlighted={highlighted}
+      onClick={onClick}
+    >
+      {Icon && <Icon />}
+      {title}
+    </Container>
+  );
 }

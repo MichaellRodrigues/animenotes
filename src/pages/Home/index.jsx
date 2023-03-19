@@ -1,4 +1,6 @@
 import {Container, Content, NewNote} from './styles'
+import { useState, useEffect} from 'react'
+import {api} from '../../services/api'
 import {Header} from '../../components/Header'
 import {FiPlus} from 'react-icons/fi'
 import {Section} from '../../components/Section'
@@ -6,6 +8,8 @@ import {Note} from '../../components/Note'
 
 
 export function Home(){
+    
+
     return(
         <Container>
              <Header/>

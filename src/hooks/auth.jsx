@@ -16,6 +16,7 @@ function AuthProvider({children}){
             localStorage.setItem('@animenotes:token', token)
 
             api.defaults.headers.common['authorization'] = `Bearer ${token}`
+            setData({user,token})
 
         } catch(error){
             if(error.response){

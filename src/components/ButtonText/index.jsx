@@ -1,12 +1,10 @@
 import { Container } from "./styles";
 
-export function ButtonText({title, isActive = false, ...rest}){
-    return (
-        <Container 
-            type="button"
-            isActive={isActive}
-            {...rest}>
-            {title}
-        </Container>    
-    )
+export function ButtonText({ icon: Icon, title, ...rest }) {
+  return (
+    <Container {...rest}>
+      {Icon && <Icon />}
+      {title}
+    </Container>
+  );
 }
