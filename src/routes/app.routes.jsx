@@ -5,7 +5,6 @@ import { New } from "../pages/New";
 import { Profile } from "../pages/Profile";
 import { Details } from "../pages/Details";
 import { Edit } from "../pages/Edit";
-import { NotFound } from "../pages/NotFound";
 
 export function AppRoutes() {
   return (
